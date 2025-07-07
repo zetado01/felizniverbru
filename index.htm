@@ -285,6 +285,35 @@
       siblings.forEach(img => img.classList.remove('active'));
       el.classList.add('active');
     }
-  </script>
+    
+ const isMobile = window.innerWidth <= 768;
+
+  if (isMobile) {
+    const images = document.querySelectorAll('.photo-overlap');
+
+    const imageObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const siblings = entry.target.parentElement.querySelectorAll('.photo-overlap');
+          siblings.forEach(img => img.classList.remove('active'));
+          entry.target.classList.add('active');
+        }
+      });
+    }, {
+      threshold: 0.6,
+    });
+
+    images.forEach(img => imageObserver.observe(img));
+  }
+
+  function toggleActive(el) {
+    // Só ativa manualmente se for desktop
+    if (window.innerWidth > 768) {
+      const siblings = el.parentElement.querySelectorAll('.photo-overlap');
+      siblings.forEach(img => img.classList.remove('active'));
+      el.classList.add('active');
+    }
+  }
+</script>
 </body>
 </html>
